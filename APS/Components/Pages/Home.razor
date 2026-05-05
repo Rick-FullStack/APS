@@ -1,7 +1,115 @@
 ﻿@page "/"
+@using APS.Shared
+@using Microsoft.AspNetCore.SignalR.Client
+@using MudBlazor
 
-<PageTitle>Home</PageTitle>
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
 
-<h1>Hello, world!</h1>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 pa-4">
+    <h1 class="mud-text-h3 mud-text-primary mb-2">📊 Plataforma de Monitoramento Ambiental</h1>
+    <p class="mud-text-subtitle1 mb-6">Rio Tietê - Secretaria de Estado do Meio Ambiente</p>
 
-Welcome to your new app.
+    <MudGrid Spacing="4">
+        <!-- Status -->
+        <MudItem xs="12" md="6">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Status do Servidor</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Color="Color.Success">✅ TCP Server Online - Porta 5000</MudText>
+                    <MudText>Clientes conectados: <strong>@_clientsCount</strong></MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Alerta -->
+        <MudItem xs="12" md="6">
+            <MudAlert Severity="@_alertSeverity" Variant="Variant.Filled" ShowCloseIcon="true">
+                @_lastAlert
+            </MudAlert>
+        </MudItem>
+
+        <!-- Tabela -->
+        <MudItem xs="12">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h5">📥 Dados Recebidos em Tempo Real</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    @if (_dataList.Count == 0)
+                    {
+                        <MudText Class="pa-4">Nenhum dado recebido ainda. Envie dados do cliente...</MudText>
+                    }
+                    else
+                    {
+                        <MudTable Items="@_dataList" Hover="true" Dense="true" FixedHeader="true">
+                            <HeaderContent>
+                                <MudTh>Indústria</MudTh>
+                                <MudTh>Poluição</MudTh>
+                                <MudTh>pH</MudTh>
+                                <MudTh>Temperatura</MudTh>
+                                <MudTh>Status</MudTh>
+                                <MudTh>Hora</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@context.IndustryName</MudTd>
+                                <MudTd>@context.PollutionLevel</MudTd>
+                                <MudTd>@context.Ph</MudTd>
+                                <MudTd>@context.Temperature</MudTd>
+                                <MudTd>
+                                    <MudChip T="string"
+                                             Color="@(context.Status == "Alerta" || context.Status == "Crítico" ? Color.Error : Color.Success)">
+                                        @context.Status
+                                    </MudChip>
+                                </MudTd>
+                                <MudTd>@context.Timestamp.ToString("HH:mm:ss")</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    }
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private HubConnection? _hubConnection;
+    private List<EnvironmentalData> _dataList = new();
+    private string _lastAlert = "Aguardando dados...";
+    private Severity _alertSeverity = Severity.Info;
+    private int _clientsCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/environmentalHub"))
+            .Build();
+
+        _hubConnection.On<EnvironmentalData>("ReceiveEnvironmentalData", data =>
+        {
+            _dataList.Insert(0, data);
+            if (_dataList.Count > 30) _dataList.RemoveAt(30);
+            _clientsCount++;
+            StateHasChanged();
+        });
+
+        _hubConnection.On<string>("ReceiveAlert", msg =>
+        {
+            _lastAlert = msg;
+            _alertSeverity = Severity.Error;
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection != null)
+            await _hubConnection.DisposeAsync();
+    }
+}

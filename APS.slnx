@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="APS.Client/APS.Client.csproj" />
+  <Project Path="APS.Shared/APS.Shared.csproj" />
   <Project Path="APS/APS.csproj" />
 </Solution>
