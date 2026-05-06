@@ -1,85 +1,127 @@
-```markdown
-# Plataforma Inteligente de Monitoramento Ambiental - Rio Tietê
 
-**Trabalho de Atividades Práticas Supervisionadas (APS) - Ciência da Computação**
-
-## 🎯 Tema
-**Desenvolvimento de uma Plataforma Inteligente de Comunicação em Rede para Monitoramento Ambiental e Suporte à Sustentabilidade Urbana**
-
-## 📋 Descrição do Projeto
-
-Sistema desenvolvido para permitir que indústrias enviem dados ambientais em tempo real para o centro administrativo da Secretaria de Estado do Meio Ambiente, focado no monitoramento do Rio Tietê.
-
-O projeto utiliza sockets TCP/IP (Berkeley) conforme exigido na proposta.
-
-## ✨ Funcionalidades
-
-- Comunicação TCP Socket em tempo real
-- Dashboard interativo com atualização automática (SignalR)
-- Envio de dados ambientais (nível de poluição, pH, temperatura, oxigênio dissolvido)
-- Envio de alertas críticos
-- Envio de relatórios
-- Interface moderna e responsiva
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Backend:** C# .NET 10
-- **Frontend:** Blazor Server
-- **UI:** MudBlazor
-- **Comunicação em Rede:** System.Net.Sockets (TCP/IP)
-- **Tempo Real:** Microsoft SignalR
-- **Arquitetura:** Multi-projeto (Shared + Server + Client)
-
-## 🚀 Como Executar
-
-### 1. Clonar / Baixar o projeto
-```bash
-git clone https://github.com/Rick-FullStack/APS.git
-cd APS
+```
+# 🌊 Monitoramento Ambiental Inteligente — Rio TietêPlataforma distribuída para coleta e monitoramento de dados ambientais em tempo real, utilizando comunicação via sockets TCP/IP e atualização dinâmica de interface.---## 📌 Visão GeralSistema projetado para simular um cenário real onde indústrias enviam dados ambientais continuamente para um centro de monitoramento governamental.A aplicação processa e exibe métricas críticas como:- Nível de poluição- pH da água- Temperatura- Oxigênio dissolvidoCom suporte a:- Alertas em tempo real- Visualização centralizada- Simulação de múltiplas fontes emissoras---## ⚙️ ArquiteturaEstrutura baseada em solução multi-projeto:
 ```
 
-### 2. Restaurar pacotes
-```bash
+APS/  
+├── APS/ → Servidor + Dashboard (Blazor Server + TCP Server)  
+├── APS.Client/ → Cliente simulador (indústria via TCP)  
+└── APS.Shared/ → Modelos e contratos compartilhados
+
+```
+### Fluxo de dados
+```
+
+[Indústrias (Client)]  
+↓ TCP/IP (Sockets)  
+[Servidor Central (.NET)]  
+↓ SignalR  
+[Dashboard Web (Blazor)]
+
+```
+---## 🧠 Stack Tecnológica- **Backend:** .NET 10 (C#)- **Frontend:** Blazor Server- **UI:** MudBlazor- **Comunicação:** TCP/IP (System.Net.Sockets)- **Tempo real:** SignalR---## 🚀 Execução### Pré-requisitos- .NET SDK 10+- Ambiente de desenvolvimento compatível (Visual Studio / VS Code)---### 1. Clonar repositório```bashgit clone https://github.com/Rick-FullStack/APS.gitcd APS
+```
+### 1. Clonar o repositório
+```
+git clone https://github.com/Rick-FullStack/APS.git
+```
+
+----------
+
+### 2. Entrar na pasta do projeto
+
+```
+cd APS
+```
+----------
+
+### 3. Restaurar dependências
+
+```
 dotnet restore
 ```
 
-### 3. Rodar o Servidor (Dashboard)
-```bash
+----------
+
+### 4. Executar o servidor (Dashboard + TCP)
+
+```
 cd APS
 dotnet run
 ```
 
-### 4. Rodar o Cliente (Indústria) - Em outro terminal
-```bash
-cd APS.Client
-dotnet run
+----------
+
+### 5. Executar cliente (simulação de indústria)
+
+Em outro terminal:
+
+```
+cd APS.Clientdotnet run
 ```
 
-Acesse o dashboard no link exibido no terminal (geralmente `https://localhost:7xxx`)
+----------
 
-## 👥 Integrantes
+### 6. Acessar aplicação
 
-- César Henrique
-- André Camargo
-- Luciano Cardoso
+Abra no navegador:
 
-## 📁 Estrutura de Pastas
-
-- **APS/** → Aplicação principal (Blazor + Servidor TCP)
-- **APS.Client/** → Cliente console para simulação das indústrias
-- **APS.Shared/** → Modelos compartilhados entre os projetos
-
-## 📸 Screenshots
-
-*(Adicionar prints do dashboard e do cliente)*
-
----
-
-**Pronto!**  
-
-Depois de criar o arquivo, faça o commit:
-
-```bash
-git add README.md
-git commit -m "docs: adiciona README.md completo e profissional"
 ```
+https://localhost:7xxx
+```
+
+(A porta exata será exibida no terminal)
+
+----------
+
+## 📡 Funcionalidades
+
+-   Comunicação TCP persistente entre cliente e servidor
+-   Atualização em tempo real via SignalR
+-   Dashboard com visualização contínua dos dados
+-   Geração de alertas para valores críticos
+-   Simulação de múltiplos emissores de dados
+
+----------
+
+## ⚠️ Limitações
+
+-   Não utiliza autenticação/autorização
+-   Dados não persistidos (memória volátil)
+-   Ambiente de simulação (não conectado a sensores reais)
+
+----------
+
+## 🎓 Contexto Acadêmico
+
+Projeto desenvolvido como Atividade Prática Supervisionada (APS) para o curso de Ciência da Computação.
+
+Objetivo: demonstrar aplicação prática de:
+
+-   Comunicação em rede com sockets
+-   Sistemas distribuídos
+-   Atualização em tempo real
+
+----------
+
+## 👥 Autores
+
+-   César Henrique
+-   André Camargo
+-   Luciano Cardoso
+
+----------
+
+## 📷 Demonstração
+
+> Recomenda-se adicionar:
+> 
+> -   Screenshot do dashboard
+> -   Output do cliente
+> -   Fluxo de dados (diagrama)
+
+----------
+
+## 📄 Licença
+
+Uso acadêmico.
