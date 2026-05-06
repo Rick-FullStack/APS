@@ -83,7 +83,8 @@ dotnet restore
 ### 4. Executar servidor
 
 ```
-cd APSdotnet run
+cd APS
+dotnet run
 ```
 
 ### 5. Executar cliente
@@ -91,7 +92,8 @@ cd APSdotnet run
 Em outro terminal:
 
 ```
-cd APS/APS.Clientdotnet run
+cd APS/APS.Client
+dotnet run
 ```
 
 ### 6. Acessar
