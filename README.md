@@ -1,26 +1,49 @@
+# Plataforma Inteligente de Monitoramento Ambiental - Rio Tietê
 
-```
-# 🌊 Monitoramento Ambiental Inteligente — Rio TietêPlataforma distribuída para coleta e monitoramento de dados ambientais em tempo real, utilizando comunicação via sockets TCP/IP e atualização dinâmica de interface.---## 📌 Visão GeralSistema projetado para simular um cenário real onde indústrias enviam dados ambientais continuamente para um centro de monitoramento governamental.A aplicação processa e exibe métricas críticas como:- Nível de poluição- pH da água- Temperatura- Oxigênio dissolvidoCom suporte a:- Alertas em tempo real- Visualização centralizada- Simulação de múltiplas fontes emissoras---## ⚙️ ArquiteturaEstrutura baseada em solução multi-projeto:
-```
+Projeto desenvolvido para a disciplina de **Atividades Práticas Supervisionadas (APS)** do curso de Ciência da Computação.
+**Trabalho de Atividades Práticas Supervisionadas (APS) - Ciência da Computação**
 
-APS/  
-├── APS/ → Servidor + Dashboard (Blazor Server + TCP Server)  
-├── APS.Client/ → Cliente simulador (indústria via TCP)  
-└── APS.Shared/ → Modelos e contratos compartilhados
+## 🎯 Tema
+**Desenvolvimento de uma Plataforma Inteligente de Comunicação em Rede para Monitoramento Ambiental e Suporte à Sustentabilidade Urbana**
 
-```
-### Fluxo de dados
-```
+## 📋 Descrição do Projeto
 
-[Indústrias (Client)]  
-↓ TCP/IP (Sockets)  
-[Servidor Central (.NET)]  
-↓ SignalR  
-[Dashboard Web (Blazor)]
+Sistema desenvolvido para permitir que indústrias enviem dados ambientais em tempo real para o centro administrativo da Secretaria de Estado do Meio Ambiente, focado no monitoramento do Rio Tietê.
 
-```
----## 🧠 Stack Tecnológica- **Backend:** .NET 10 (C#)- **Frontend:** Blazor Server- **UI:** MudBlazor- **Comunicação:** TCP/IP (System.Net.Sockets)- **Tempo real:** SignalR---## 🚀 Execução### Pré-requisitos- .NET SDK 10+- Ambiente de desenvolvimento compatível (Visual Studio / VS Code)---### 1. Clonar repositório```bashgit clone https://github.com/Rick-FullStack/APS.gitcd APS
-```
+## 🎯 Objetivo
+Desenvolver uma plataforma de comunicação em rede utilizando **sockets TCP/IP** (Berkeley style) para monitoramento ambiental do Rio Tietê, atendendo à Secretaria de Estado do Meio Ambiente.
+O projeto utiliza sockets TCP/IP (Berkeley) conforme exigido na proposta.
+
+## ✨ Funcionalidades Implementadas
+## ✨ Funcionalidades
+
+- **Servidor TCP** em Background Service (.NET)
+- **Cliente Console** simulando indústrias (envio de dados em tempo real)
+- **Dashboard Web** em Blazor Server com atualização em tempo real (SignalR)
+- Envio de dados ambientais (poluição, pH, temperatura, etc.)
+- Comunicação TCP Socket em tempo real
+- Dashboard interativo com atualização automática (SignalR)
+- Envio de dados ambientais (nível de poluição, pH, temperatura, oxigênio dissolvido)
+- Envio de alertas críticos
+- Envio de relatórios
+- Interface responsiva com MudBlazor
+- Interface moderna e responsiva
+
+## 🛠️ Tecnologias Utilizadas
+
+- **C# / .NET 10**
+- Blazor Server
+- MudBlazor
+- SignalR
+- System.Net.Sockets (Berkeley Sockets)
+- JSON para serialização
+- **Backend:** C# .NET 10
+- **Frontend:** Blazor Server
+- **UI:** MudBlazor
+- **Comunicação em Rede:** System.Net.Sockets (TCP/IP)
+- **Tempo Real:** Microsoft SignalR
+- **Arquitetura:** Multi-projeto (Shared + Server + Client)
+
 ### 1. Clonar o repositório
 ```
 git clone https://github.com/Rick-FullStack/APS.git
