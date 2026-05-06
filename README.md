@@ -1,12 +1,3 @@
-**✅ Aqui está o conteúdo completo e pronto para você criar o arquivo `README.md`**
-
----
-
-### **Como criar o arquivo:**
-
-1. Na raiz do projeto (onde está o `.sln`), clique com botão direito → **Novo Arquivo** → nomeie como `README.md`
-2. Cole todo o conteúdo abaixo:
-
 ```markdown
 # Plataforma Inteligente de Monitoramento Ambiental - Rio Tietê
 
