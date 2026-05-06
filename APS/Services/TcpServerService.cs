@@ -34,18 +34,24 @@ public class TcpServerService : BackgroundService
             {
                 var client = await _listener.AcceptTcpClientAsync(stoppingToken);
                 _clients.Add(client);
-                _ = HandleClientAsync(client, stoppingToken);
+                _ = Task.Run(() => HandleClientAsync(client, stoppingToken));
             }
-            catch { }
+            catch (Exception ex) when (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogError(ex, "Erro ao aceitar cliente");
+            }
         }
     }
 
     private async Task HandleClientAsync(TcpClient client, CancellationToken token)
     {
+        var endpoint = client.Client.RemoteEndPoint?.ToString() ?? "Desconhecido";
+        _logger.LogInformation("✅ Cliente conectado: {Endpoint}", endpoint);
+
         try
         {
             var stream = client.GetStream();
-            var buffer = new byte[4096];
+            var buffer = new byte[8192];
 
             while (client.Connected && !token.IsCancellationRequested)
             {
@@ -53,14 +59,16 @@ public class TcpServerService : BackgroundService
                 if (bytesRead == 0) break;
 
                 string json = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
-
                 if (!string.IsNullOrEmpty(json))
                 {
-                    await ProcessMessage(json);
+                    await ProcessMessageAsync(json);
                 }
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Cliente desconectado: {Endpoint}", endpoint);
+        }
         finally
         {
             _clients.Remove(client);
@@ -68,33 +76,27 @@ public class TcpServerService : BackgroundService
         }
     }
 
-    private async Task ProcessMessage(string json)
+    private async Task ProcessMessageAsync(string json)
     {
         try
         {
             using JsonDocument doc = JsonDocument.Parse(json);
-            string? type = doc.RootElement.TryGetProperty("Type", out var t) ? t.GetString() : null;
-
-            await _hub.Clients.All.SendAsync("ReceiveMessage", json); // fallback
+            string? type = doc.RootElement.TryGetProperty("Type", out var prop) ? prop.GetString() : null;
 
             if (type == "DATA")
             {
-                var payload = doc.RootElement.GetProperty("Payload");
-                var data = JsonSerializer.Deserialize<EnvironmentalData>(payload.GetRawText());
+                var data = JsonSerializer.Deserialize<EnvironmentalData>(doc.RootElement.GetProperty("Payload").GetRawText());
                 if (data != null)
-                {
                     await _hub.Clients.All.SendAsync("ReceiveEnvironmentalData", data);
-                }
             }
             else if (type == "ALERT")
             {
-                var msg = "🚨 ALERTA CRÍTICO RECEBIDO!";
-                await _hub.Clients.All.SendAsync("ReceiveAlert", msg);
+                await _hub.Clients.All.SendAsync("ReceiveAlert", "🚨 ALERTA CRÍTICO RECEBIDO DO CAMPO!");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao processar mensagem");
+            _logger.LogError(ex, "Erro ao processar mensagem JSON");
         }
     }
 }

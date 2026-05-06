@@ -1,32 +1,94 @@
+**✅ Aqui está o conteúdo completo e pronto para você criar o arquivo `README.md`**
+
+---
+
+### **Como criar o arquivo:**
+
+1. Na raiz do projeto (onde está o `.sln`), clique com botão direito → **Novo Arquivo** → nomeie como `README.md`
+2. Cole todo o conteúdo abaixo:
+
+```markdown
 # Plataforma Inteligente de Monitoramento Ambiental - Rio Tietê
 
-Projeto desenvolvido para a disciplina de **Atividades Práticas Supervisionadas (APS)** do curso de Ciência da Computação.
+**Trabalho de Atividades Práticas Supervisionadas (APS) - Ciência da Computação**
 
-## 🎯 Objetivo
-Desenvolver uma plataforma de comunicação em rede utilizando **sockets TCP/IP** (Berkeley style) para monitoramento ambiental do Rio Tietê, atendendo à Secretaria de Estado do Meio Ambiente.
+## 🎯 Tema
+**Desenvolvimento de uma Plataforma Inteligente de Comunicação em Rede para Monitoramento Ambiental e Suporte à Sustentabilidade Urbana**
 
-## ✨ Funcionalidades Implementadas
+## 📋 Descrição do Projeto
 
-- **Servidor TCP** em Background Service (.NET)
-- **Cliente Console** simulando indústrias (envio de dados em tempo real)
-- **Dashboard Web** em Blazor Server com atualização em tempo real (SignalR)
-- Envio de dados ambientais (poluição, pH, temperatura, etc.)
+Sistema desenvolvido para permitir que indústrias enviem dados ambientais em tempo real para o centro administrativo da Secretaria de Estado do Meio Ambiente, focado no monitoramento do Rio Tietê.
+
+O projeto utiliza sockets TCP/IP (Berkeley) conforme exigido na proposta.
+
+## ✨ Funcionalidades
+
+- Comunicação TCP Socket em tempo real
+- Dashboard interativo com atualização automática (SignalR)
+- Envio de dados ambientais (nível de poluição, pH, temperatura, oxigênio dissolvido)
 - Envio de alertas críticos
 - Envio de relatórios
-- Interface responsiva com MudBlazor
+- Interface moderna e responsiva
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **C# / .NET 10**
-- Blazor Server
-- MudBlazor
-- SignalR
-- System.Net.Sockets (Berkeley Sockets)
-- JSON para serialização
+- **Backend:** C# .NET 10
+- **Frontend:** Blazor Server
+- **UI:** MudBlazor
+- **Comunicação em Rede:** System.Net.Sockets (TCP/IP)
+- **Tempo Real:** Microsoft SignalR
+- **Arquitetura:** Multi-projeto (Shared + Server + Client)
 
 ## 🚀 Como Executar
 
-### 1. Clonar o repositório
+### 1. Clonar / Baixar o projeto
 ```bash
 git clone https://github.com/Rick-FullStack/APS.git
 cd APS
+```
+
+### 2. Restaurar pacotes
+```bash
+dotnet restore
+```
+
+### 3. Rodar o Servidor (Dashboard)
+```bash
+cd APS
+dotnet run
+```
+
+### 4. Rodar o Cliente (Indústria) - Em outro terminal
+```bash
+cd APS.Client
+dotnet run
+```
+
+Acesse o dashboard no link exibido no terminal (geralmente `https://localhost:7xxx`)
+
+## 👥 Integrantes
+
+- César Henrique
+- André Camargo
+- Luciano Cardoso
+
+## 📁 Estrutura de Pastas
+
+- **APS/** → Aplicação principal (Blazor + Servidor TCP)
+- **APS.Client/** → Cliente console para simulação das indústrias
+- **APS.Shared/** → Modelos compartilhados entre os projetos
+
+## 📸 Screenshots
+
+*(Adicionar prints do dashboard e do cliente)*
+
+---
+
+**Pronto!**  
+
+Depois de criar o arquivo, faça o commit:
+
+```bash
+git add README.md
+git commit -m "docs: adiciona README.md completo e profissional"
+```
